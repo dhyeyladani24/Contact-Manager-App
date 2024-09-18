@@ -16,7 +16,6 @@ const errorhandler = (err,req,res,next) => {
             console.log("No error! All good!");
             break;
     }
-    
 };
 
 module.exports = errorhandler;

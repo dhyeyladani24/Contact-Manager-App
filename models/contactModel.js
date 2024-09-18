@@ -17,7 +17,14 @@ const contactSchema = new mongoose.Schema( {
     phone: {
         type: String,
         required: [true, "Please add the phone number"]
-    }
+    },
+    favorite: {
+        type: Boolean,
+        default: false
+    },
+    labels: [{
+        type: String
+    }]
 }, {
     timestamps: true
 })

@@ -5,9 +5,15 @@ const errorhandler = require("./middleware/errorhandler")
 const contactRoutesPath = require("./routes/contactroutes");
 const userRoutesPath = require("./routes/userRoutes");
 const connectdb = require("./Config/dbconnection");
+const cors  =  require("cors");
 
 connectdb();
 const port = process.env.PORT || 5000; 
+
+let coreOption = {
+    origin : "*"
+}
+app.use(cors(coreOption));
 
 app.use(express.json());
 app.use("/api/contacts",contactRoutesPath )

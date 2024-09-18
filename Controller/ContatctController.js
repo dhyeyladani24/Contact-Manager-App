@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler") // by using this we dont need to pass all blocks into try-catch block..because async handler will automatiaclly catch the error if it's occurred
 const Contact = require("../models/contactModel");
+
 //@desc Get all contacts
 //@route Get /api/contacts
 //@access private 
 const getContacts = asyncHandler(async(req,res) => {
-
+    // console.log(req);
     const contacts = await Contact.find({user_id:req.usr.id});
     res.status(200).json(contacts);
 })
@@ -14,9 +15,10 @@ const getContacts = asyncHandler(async(req,res) => {
 //@access private 
 const createContacts =asyncHandler( async(req,res) => {
     console.log("the request body is", req.body);
+    console.log("fnm\n");
     const {name, email, phone} = req.body;
     if(!name || !email || !phone){
-        res.status(400);
+        res.status(400).send({msg : "All fields are madatory"});
         throw new Error("all fields are mandatory");
     }
     const contact = await Contact.create({
@@ -30,7 +32,7 @@ const createContacts =asyncHandler( async(req,res) => {
 //@access private 
 const getContact = asyncHandler(async(req,res) => {
     const contact = await Contact.findById(req.params.id);
-    if(!contact){
+    if(!contact || contact.user_id != req.usr.id){
         res.status(400);
         throw new Error("Contact not found");
     }
@@ -54,7 +56,7 @@ const updateContacts = asyncHandler(async(req,res) => {
         req.params.id,
         req.body,
         {new : true}
-    );
+    ); 
     res.status(200).json(updateContacts);
 })
 
